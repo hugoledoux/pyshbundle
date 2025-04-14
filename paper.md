@@ -66,7 +66,9 @@ bibliography: paper.bib
 
 # Summary
 
+=======
 `GRACE` (Gravity Recovery and Climate Experiment) satellite mission has been mapping mass changes near the surface of the Earth since 2002. One of the major mechanisms of short term mass transport is the redistribution of water, GRACE has significantly influenced Geosciences. GRACE satellite products are typically released at various levels of complexity, often referred to as processing levels. Level 1 is the satellite instrument data that is processed to obtain Level 2 (`L2`) the Spherical harmonic coefficients and standard deviations of the static gravity field, for a particular time period. `L2` are further processed to obtain Level 3 products; global gridded mass change estimates (`L3`) expressed as terrestrial water storage anomalies (`TWSA`). The `L2` spherical harmonic data are typically noisy, which necessitates the use of spectral filtering. The data also have to be corrected for known artifacts and contaminating geophysical signals, such as solid Earth processes in the case of isolating TWSA. Processing choices, such as filter properties and type, have a significant impact on the accuracy and the resolution of final gridded output. Therefore, most `L3` users must be cautious when using GRACE data for specific applications. The majority of the GRACE data user community is not well versed with `L2` data processing, and most often use the off-the-shelf `L3` products. Here we developed an open-source processing toolbox to provide users with more control over processing choices. A python module, called PySHbundle, was developed to ease the conversion of GRACE `L2` Spherical Harmonics data products to `L3` `TWSA` products. With this contribution, we hope to enable further usage of GRACE data for Earth system science.
+
 
 # Introduction
 
@@ -74,7 +76,7 @@ The NASA/DLR GRACE and NASA/GFZ GRACE-FO twin satellite missions measure changes
 
 Several researchers in Geosciences use level three GRACE data, which is obtained from `L2` Spherical harmonic coefficients, except JPL MASCONS which are derived from Level-1B satellite ranges @watkins2015mascons. The procedure to convert `L2` to `L3` is called spherical harmonic synthesis. However, there are several pre-processing steps; such as anomaly calculation, replacing poor quality low degree coefficients, filtering, and correcting for signal damage due to filtering.
 
-A few GRACE data processing tools are available based on the python programming language. These include [`gravity-toolkit`](https://gravity-toolkit.readthedocs.io/en/latest/) [@gravity-toolkit], [`ggtools`](https://pypi.org/project/ggtools/1.1.0/) [@ggtools] and [`shxarray`](https://github.com/ITC-Water-Resources/shxarray) [@shxarray]. General tools for spheric harmonic analysis are also available, such as [`SHTools`](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018GC007529) [@wieczorek2018shtools]. [`SHbundle`](https://www.gis.uni-stuttgart.de/en/research/downloads/shbundle) provide MATLAB scripts for Spheric Harmonic Synthesis and Spherical Harmonic Analysis. The first version of the code was developed in 1994 while the latest version was released in 2021.
+A few GRACE data processing tools are available based on the Python programming language. These include [`gravity-toolkit`](https://gravity-toolkit.readthedocs.io/en/latest/) [@gravity-toolkit], [`ggtools`](https://pypi.org/project/ggtools/1.1.0/) [@ggtools] and [`shxarray`](https://github.com/ITC-Water-Resources/shxarray) [@shxarray]. General tools for spheric harmonic analysis are also available, such as [`SHTools`](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018GC007529) [@wieczorek2018shtools]. [`SHbundle`](https://www.gis.uni-stuttgart.de/en/research/downloads/shbundle) provide MATLAB scripts for Spheric Harmonic Synthesis and Spherical Harmonic Analysis. The first version of the code was developed in 1994 while the latest version was released in 2021.
  
 # Statement of need
 
@@ -104,7 +106,7 @@ The accuracy of the core capabilites of pyshbundle was evaluated against the MAT
 
 # Acknowledgements
 
-The authors would like to thank Dr.-Ing. Markus Antoni and Clara Buetzler, Institute of Geodesy, University of Stuttgart, Germany, for early feedback. We are grateful for the financial support from IISc-ISRO Space Technology Cell for funding the project titled "Improving the spatial resolution of GRACE TWS for India using remote sensing datasets and modeling approach" under grant number STC0437. BDV would like to acknowledge the financial support from Science and Engineering Research Board, Government of India, under the grand agreement number SRG/2022/000625 for the MATRA project.
+The authors would like to thank Dr.-Ing. Markus Antoni and Clara Buetzler, Institute of Geodesy, University of Stuttgart, Germany, for early feedback. We are grateful for the financial support from IISc-ISRO Space Technology Cell for funding the project titled "Improving the spatial resolution of GRACE TWS for India using remote sensing datasets and modeling approach" under grant number STC0437. BDV would like to acknowledge the financial support from Science and Engineering Research Board, Government of India, under the grant agreement number SRG/2022/000625 for the MATRA project.
 
 # Future Plan
 
