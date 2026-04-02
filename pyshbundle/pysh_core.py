@@ -180,10 +180,10 @@ def gshs(field, quant = 'none', grd = 'mesh', n = -9999, h = 0, jflag = 1):
     c = field[m:lmax+1, lmax+m] 
     l = np.array([np.arange(m,lmax+1)])
     p = plm(l, m, theRAD, nargin = 3, nargout = 1)[:,:,0]
-    # a[:, m] = np.dot(p,c)
-    # b[:, m] = np.zeros(nlat) 
-    a[:, m] = np.einsum('ij,j->i', p, c, optimize=False) 
-    b[:, m] = np.zeros(nlat, dtype=np.float64)
+    a[:, m] = np.dot(p,c)
+    b[:, m] = np.zeros(nlat, dtype='float') 
+    # a[:, m] = np.einsum('ij,j->i', p, c, optimize=False, dtype='float') 
+    # b[:, m] = np.zeros(nlat, dtype=np.float64)
     
     for m in range(1,lmax+1,1):
         c = field[m:lmax+1,lmax+m]
@@ -191,10 +191,10 @@ def gshs(field, quant = 'none', grd = 'mesh', n = -9999, h = 0, jflag = 1):
         
         l = np.array([np.arange(m,lmax+1)])
         p = plm(l, m, theRAD, nargin = 3, nargout = 1)[:,:,0]
-        # a[:, m] = np.dot(p,c)
-        # b[:, m] = np.dot(p,s)
-        a[:, m] = np.einsum('ij,j->i', p, c, optimize=False) 
-        b[:, m] = np.einsum('ij,j->i', p, s, optimize=False) 
+        a[:, m] = np.dot(p,c)
+        b[:, m] = np.dot(p,s)
+        # a[:, m] = np.einsum('ij,j->i', p, c, optimize=False) 
+        # b[:, m] = np.einsum('ij,j->i', p, s, optimize=False) 
 
         
     del field
