@@ -1,9 +1,18 @@
 .DS_Store
-dist
-build
-pyshbundle.egg-info
+dist/
+build/
+pyshbundle.egg-info/
 develloping_progress.txt
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
 paper_org.md
-pyproject.toml
+CLAUDE.md
+OPEN_ISSUES.md
+
+# Python cache
+**/__pycache__/
+**/*.py[co]
+
+# Test cache
+.pytest_cache/
+
+# Old/draft test files
+tests/old*

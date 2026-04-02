@@ -13,35 +13,32 @@ from datetime import datetime
 from collections import OrderedDict
 from pyshbundle.hydro import TWSCalc
 from pyshbundle.io import extract_SH_data, extract_deg1_coeff_tn13, extract_deg2_3_coeff_tn14
-import pkg_resources
-long_mean_file_path = pkg_resources.resource_filename('pyshbundle', 'data/long_mean/SH_long_mean_jpl.npy')
-matlab_file_path = pkg_resources.resource_filename('pyshbundle', 'data/validation_data/tws_sh.mat')
-ignore_warnings = True
 
-# Add the folder path to the Python path
-# Get the current directory
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Add the parent directory to the Python path
-parent_dir = os.path.dirname(current_dir)
-sys.path.append(parent_dir)
-
-# Add the necessary paths
-sys.path.append(os.path.join(parent_dir, 'pyshbundle'))
-sys.path.append(os.path.join(parent_dir, 'data'))
+from importlib.resources import files, as_file
 
 # Rest of the code...
-def validation_pyshbundle():
-    source='jpl'
-    path_sh = os.path.join(parent_dir, 'data', 'JPL_input')
+def validation_pyshbundle(path_sh: str, path_tn13: str, path_tn14: str, source: str = 'jpl'):
+    """
+    Load spherical harmonic data, apply corrections, and compute TWS fields.
 
-    path_tn14 = os.path.join(parent_dir, 'pyshbundle','data', 'JPL_TN_files', 'TN-14_C30_C20_GSFC_SLR.txt')
-    path_tn13 = os.path.join(parent_dir, 'pyshbundle','data', 'JPL_TN_files', 'TN-13_GEOC_JPL_RL06.txt')
-    files = os.listdir(path_sh)
-    file_paths = [os.path.join(path_sh, file) for file in files if os.path.splitext(file)[1] == '.gz'];
+    Parameters
+    ----------
+    path_sh   : path to directory containing .gz GRACE files
+    path_tn13 : path to TN-13 degree-1 coefficient file
+    path_tn14 : path to TN-14 C20/C30 coefficient file
+    source    : data centre identifier, e.g. 'jpl', 'itsg'
+
+    Returns
+    -------
+    tws_fields : np.ndarray, float32, shape (n_months, nlat, nlon)
+    """
+    long_mean_file_path = files('pyshbundle').joinpath('data/long_mean/SH_long_mean_jpl.npy')
+    
+    sh_files = os.listdir(path_sh)
+    file_paths = [os.path.join(path_sh, file) for file in sh_files if os.path.splitext(file)[1] == '.gz'];
     extracted_data={} 
+    
     for file_path in file_paths:
-        # file_data = read_sh(file_path, source=source)
         file_data = extract_SH_data(file_path, source=source)
         if file_data['time_coverage_start']:
             # Convert time_coverage_start to a datetime object and then format it as yyyy-mm
@@ -68,6 +65,7 @@ def validation_pyshbundle():
             sorted_data[key][(1, 0)] = {'Clm': 0.0, 'Slm': 0.0, 'Clm_sdev': 0.0, 'Slm_sdev': 0.0}
             sorted_data[key][(1, 1)] = {'Clm': 0.0, 'Slm': 0.0, 'Clm_sdev': 0.0, 'Slm_sdev': 0.0};
     else: pass
+
     for date_key in temp_tn13.keys():
         if date_key[0] in sorted_data.keys():
             sorted_data[date_key[0]][(date_key[1], date_key[2])]['Clm'] = temp_tn13[date_key]['Clm']
@@ -87,47 +85,22 @@ def validation_pyshbundle():
                 sc_mat[index, l, max_degree-m]=temp[(l,m)]['Slm']
         del temp
     sc_mat=np.delete(sc_mat, max_degree, axis=2);
-    SH_long_mean_jpl = np.load(long_mean_file_path)    
+
+    # Load the long-term mean SH coefficients for the specified data source
+    with as_file(long_mean_file_path) as long_mean_file:
+        SH_long_mean_jpl = np.load(long_mean_file)
+
     delta_sc=np.ones_like(sc_mat)*np.nan
     delta_sc = sc_mat -   SH_long_mean_jpl
     lmax,gs,half_rad_gf=96, 1, 500
     tws_fields = TWSCalc(delta_sc,lmax, gs,half_rad_gf, number_of_months)
     tws_fields = np.float32(tws_fields)
-    data_pysh=tws_fields.copy()
 
-    # Load the .mat file
-    data_sh = scipy.io.loadmat(matlab_file_path)
-    # Access the variables in the .mat file
-    data_sh = data_sh['tws_m']
+    return np.float32(tws_fields)
 
-    # ## 1. Gridwise RMSE calculation
-    # 
-    # Before finding the grid-wise RMSE values we need to ignore the data for the missing months.
-    # Calculate the difference between the two datasets
-    diff = data_sh-data_pysh
-
-    # Calculate the squared difference
-    squared_diff = diff**2
-
-    # Calculate the mean squared difference along the time axis
-    mean_squared_diff = np.mean(squared_diff, axis=0)
-
-    # Calculate the root mean squared error (RMSE)
-    gridwise_rmse = np.sqrt(mean_squared_diff)
-
-    # Test whether gridwise RMSE is less than 1e-3
-    if np.all(gridwise_rmse < 1e-3):
-        pass
-    else:
-        raise ValueError('Gridwise RMSE is greater than 1e-3')
-
-    # ## 2. Gridwise NRMSE
-    # Calculate the normalized root mean squared error (NRMSE)
-    gridwise_nrmse = gridwise_rmse/np.std(data_sh, axis=0)
-    
-    # Test whether gridwise NRMSE is less than 1e-5
-    if np.all(gridwise_nrmse < 1e-5):
-        pass
-    else:
-        raise ValueError('Gridwise NRMSE is greater than 1e-4')
-    return "expected_result"
+def load_matlab_reference():
+    """Load the packaged MATLAB reference TWS field."""
+    matlab_file_path = files('pyshbundle').joinpath('data/validation_data/tws_sh.mat')
+    with as_file(matlab_file_path) as f:
+        data = scipy.io.loadmat(f)
+    return data['tws_m']
