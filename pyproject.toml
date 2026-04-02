@@ -54,5 +54,4 @@ testpaths = ["tests"]
 pythonpath = ["tests"]
 filterwarnings = [
     "ignore::DeprecationWarning",
-    "ignore::pyparsing.PyparsingDeprecationWarning",
 ]
