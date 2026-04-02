@@ -96,7 +96,7 @@ def validation_pyshbundle(path_sh: str, path_tn13: str, path_tn14: str, source: 
     tws_fields = TWSCalc(delta_sc,lmax, gs,half_rad_gf, number_of_months)
     tws_fields = np.float32(tws_fields)
 
-    return np.float32(tws_fields)
+    return tws_fields
 
 def load_matlab_reference():
     """Load the packaged MATLAB reference TWS field."""
