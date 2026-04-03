@@ -1,4 +1,4 @@
-name: pyshbundle-test
+name: pyshbundle
 channels:
   - conda-forge
   - defaults
