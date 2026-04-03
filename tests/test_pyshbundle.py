@@ -62,7 +62,7 @@ def test_gridwise_rmse(tws_results):
     This is the primary accuracy criterion.
     """
     tws_computed, tws_reference = tws_results
-    tws_computed, tws_reference = tws_computed[0:100], tws_reference[0:100]
+    # tws_computed, tws_reference = tws_computed[0:100], tws_reference[0:100]
     diff              = tws_reference - tws_computed
     gridwise_rmse     = np.sqrt(np.mean(diff**2, axis=0))
 
@@ -80,7 +80,7 @@ def test_gridwise_nrmse(tws_results):
     Normalised by the std of the reference field along the time axis.
     """
     tws_computed, tws_reference = tws_results
-    tws_computed, tws_reference = tws_computed[0:100], tws_reference[0:100]
+    # tws_computed, tws_reference = tws_computed[0:100], tws_reference[0:100]
     diff          = tws_reference - tws_computed
     gridwise_rmse = np.sqrt(np.mean(diff**2, axis=0))
     std_ref       = np.std(tws_reference, axis=0)
