@@ -172,7 +172,7 @@ The `GRACE` data products are being developed, processed  and archieved in a sha
 + Level 4: `Time Series`<br>
     Time-series of catchment level hydrological estimates of TWSA
 
-`PySHBundle` provides the capability to obtain grided anoamlies (like TWSA, geopotential height etc) from Level 2 data.
+`PySHBundle` provides the capability to obtain grided anomalies (like TWSA, geopotential height etc) from Level 2 data.
 
 ## Spherical Harmonics Data Formats
 
@@ -211,7 +211,7 @@ This is a variation of the clm-format for compact notation with just 3 or 4 colu
 
 This is another well known arrangement of Spherical Harmonic coefficients. This is a square matrix of size $n_{max}, n_{max}$.
 
-The lower traingular terms are made of the cosine terms
+The lower triangular terms are made of the cosine terms
 
 
 ### $\left / S | C \right \backslash$ format

@@ -40,7 +40,7 @@
 
 
 import numpy as np
-import numpy.matlib as npm
+# import numpy.matlib as npm
 import scipy as sc
 from scipy import signal
 from scipy import linalg
@@ -180,10 +180,9 @@ def gshs(field, quant = 'none', grd = 'mesh', n = -9999, h = 0, jflag = 1):
     c = field[m:lmax+1, lmax+m] 
     l = np.array([np.arange(m,lmax+1)])
     p = plm(l, m, theRAD, nargin = 3, nargout = 1)[:,:,0]
-    a[:, m] = np.dot(p,c) 
-    b[:, m] = np.zeros(nlat) 
-    
-    
+    a[:, m] = np.dot(p,c)
+    # a[:, m] = np.einsum('ij,j->i', p, c, optimize=False, dtype='float')
+    b[:, m] = np.zeros(nlat, dtype='float') 
     
     for m in range(1,lmax+1,1):
         c = field[m:lmax+1,lmax+m]
@@ -193,6 +192,9 @@ def gshs(field, quant = 'none', grd = 'mesh', n = -9999, h = 0, jflag = 1):
         p = plm(l, m, theRAD, nargin = 3, nargout = 1)[:,:,0]
         a[:, m] = np.dot(p,c)
         b[:, m] = np.dot(p,s)
+        # a[:, m] = np.einsum('ij,j->i', p, c, optimize=False, dtype='float') 
+        # b[:, m] = np.einsum('ij,j->i', p, s, optimize=False, dtype='float') 
+
         
     del field
 
@@ -253,7 +255,7 @@ def gsha(f, method: str, grid: str = None, lmax: int = -9999):
         lmax (int, optional): Maximum degree of development. Defaults to -9999.
 
     Returns:
-        (numpy.ndarray): Spherical harmonics coefficients Clm, Slm in |C\S| format.
+        (numpy.ndarray): Spherical harmonics coefficients Clm, Slm in |C\\S| format.
 
     Raises:
         ValueError: If grid argument is not 'block' or 'cell'.
@@ -466,7 +468,7 @@ def gsha(f, method: str, grid: str = None, lmax: int = -9999):
             clm[m:L+1, m] = (1 + (m == 0))/ 4 * p.T @ ai
             slm[m:L+1, m] = (1 + (m == 0))/ 4 * p.T @ bi
                 
-    # Write the coefficients Clm & Slm in |C\S| format
+    # Write the coefficients Clm & Slm in |C\\S| format
 
     slm = np.fliplr(slm)
     cs = sc2cs(np.concatenate((slm[:, np.arange(L)], clm), axis = 1))
@@ -732,11 +734,15 @@ def GRACE_Data_Driven_Correction_Vishwakarma(F, cf, GaussianR, basins):
         lssol_ = sc.linalg.lstsq(A, naninterp(tsleaktotalf[:, i])) #returns a tuple of solution "x", residue and rank of matrix A; for A x = B
         lssol = lssol_[0]
         bl.append(lssol[2-1])
-        #Working till here 2022-10-21 1530pm
     
-    multp = npm.repmat(b, r, 1) 
+    # multp = npm.repmat(b, r, 1) 
+    # devint = bfDevRegAv * multp
+    # multp = npm.repmat(bl, r, 1)
+    # leakLS = tsleaktotalf * multp
+
+    multp = np.tile(b, (r, 1))
     devint = bfDevRegAv * multp
-    multp = npm.repmat(bl, r, 1)
+    multp = np.tile(bl, (r, 1))
     leakLS = tsleaktotalf * multp
     
     

@@ -225,6 +225,8 @@ def lrecur(inn, x, m, lmax):
        col   = ll - m+1			                                                # points to the next collumn of ptmp
        root1 = np.sqrt( (2*ll+1)*(2*ll-1)/((ll-m)*(ll+m)) ).real 
        root2 = np.sqrt( (2*ll+1)*(ll+m-1)*(ll-m-1) / ( (2*ll-3)*(ll-m)*(ll+m) ) ).real
+    #    root1 = np.sqrt(np.maximum((2*ll+1)*(2*ll-1)/((ll-m)*(ll+m)), 0.0))
+    #    root2 = np.sqrt(np.maximum((2*ll+1)*(ll+m-1)*(ll-m-1) / ((2*ll-3)*(ll-m)*(ll+m)), 0.0))
     
        # % recursion 
        if ll == m+1:
