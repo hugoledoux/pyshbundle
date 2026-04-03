@@ -4,8 +4,6 @@ build/
 pyshbundle.egg-info/
 develloping_progress.txt
 paper_org.md
-CLAUDE.md
-OPEN_ISSUES.md
 
 # Python cache
 **/__pycache__/

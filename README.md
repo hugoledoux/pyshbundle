@@ -98,7 +98,7 @@ The suite runs 6 tests using 60 months of JPL GRACE RL06 data compared against a
 |---|---|---|
 | `test_tws_output_shape` | Computed and reference arrays have identical shape | — |
 | `test_tws_output_dtype` | Output is `float32` | — |
-| `test_gridwise_rmse` | Gridwise RMSE between computed and reference TWS | < 1e-3 |
+| `test_gridwise_rmse` | Gridwise RMSE (mm) between computed and reference TWS | < 1e-3 |
 | `test_gridwise_nrmse` | Gridwise NRMSE (normalised by reference std) | < 1e-5 |
 | `test_no_nan_in_output` | No NaN values in computed TWS | — |
 | `test_no_nan_in_reference` | No NaN values in MATLAB reference (sanity check) | — |
