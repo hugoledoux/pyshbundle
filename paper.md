@@ -75,7 +75,7 @@ The NASA/DLR GRACE and NASA/GFZ GRACE-FO twin satellite missions measure changes
 
 Several researchers in Geosciences use level three GRACE data, which is obtained from `L2` Spherical harmonic coefficients, except JPL MASCONS which are derived from Level-1B satellite ranges [@watkins2015mascons]. The procedure to convert `L2` to `L3` is called spherical harmonic synthesis. However, there are several pre-processing steps; such as anomaly calculation, replacing poor quality low degree coefficients, filtering, and correcting for signal damage due to filtering.
 
-A few GRACE data processing tools are available based on the Python programming language. These include [`gravity-toolkit`](https://gravity-toolkit.readthedocs.io/en/latest/) [@gravity-toolkit], [`ggtools`](https://pypi.org/project/ggtools/1.1.0/) [@ggtools] and [`shxarray`](https://github.com/ITC-Water-Resources/shxarray) [@shxarray]. General tools for spheric harmonic analysis are also available, such as [`SHTools`](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018GC007529) [@wieczorek2018shtools]. [`SHbundle`](https://www.gis.uni-stuttgart.de/en/research/downloads/shbundle) provide MATLAB scripts for Spheric Harmonic Synthesis and Spherical Harmonic Analysis. The first version of the code was developed in 1994 while the latest version was released in 2021.
+A few GRACE data processing tools are available based on the Python programming language. These include [`gravity-toolkit`](https://gravity-toolkit.readthedocs.io/en/latest/) [@gravity-toolkit], [`ggtools`](https://pypi.org/project/ggtools/1.1.0/) [@ggtools] and [`shxarray`](https://github.com/ITC-Water-Resources/shxarray) [@shxarray]. General tools for spherical harmonic analysis are also available, such as [`SHTools`](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018GC007529) [@wieczorek2018shtools]. [`SHbundle`](https://www.gis.uni-stuttgart.de/en/research/downloads/shbundle) provide MATLAB scripts for Spherical Harmonic Synthesis and Spherical Harmonic Analysis. The first version of the code was developed in 1994 while the latest version was released in 2021.
  
 # Statement of need
 
@@ -83,7 +83,7 @@ Processing choices introduce subtle differences in the final product, potentiall
 
 The software processes widely used `L2` products from CSR, JPL, and GFZ. It closely follows the structure of the Matlab-based [`SHbundle`](https://www.gis.uni-stuttgart.de/en/research/downloads/shbundle) and [`GRACE Data Driven Correction (GDDC)`](https://doi.org/10.1002/2017WR021150)[@vishwakarma2017data] codes, enabling cross-compatibility between Python and Matlab users.
 
-`PySHbundle` is modular, offering tools to process GRACE data, including anomaly computation, low-degree coefficient substitution, noise reduction, and signal leakage correction. It supports future development for hydrological applications.
+`PySHbundle` is modular, offering tools to process GRACE data, including anomaly computation, low-degree coefficient substitution, noise reduction, handling gaps and signal leakage correction. It supports future development for hydrological applications. While excellent tools exist (above) for Spherical Harmonic operation, PySHbundle provides familiarity of existing and beginner level users by focusing on GRACE applications, and translating the legacy software, SHbundle.
 
 By using Python and the GNU license, the package is accessible globally and aligns with the [FAIR principles](https://www.go-fair.org/fair-principles/). We aim to reduce technical and financial barriers, making it useful for researchers, students, and educational programs like the [GRACE Hackweek](https://www.quantumfrontiers.de/de/aktuelles/veranstaltungen/details/news/grace-hackweek-3) at IIT Kanpur.
 
@@ -101,7 +101,7 @@ Accordingly, the package consists of four main modules, `io`, `vizutils`, `pysh_
 4. `shutils`:  Helper scripts for applying `pysh_core`.
 Based on the main modules, we provide examples as jupyter notebooks for understanding and using spherical harmonics data and the package.
 
-The accuracy of the core capabilities of `pyshbundle` was validated against the MATLAB `SHbundle` software using 60 months of JPL GRACE RL06 Level-2 data. The gridwise Root Mean Square Error (RMSE) between the computed and reference Terrestrial Water Storage fields was below $10^{-3}$ mm, confirming numerical equivalence between the two implementations. A reproducible validation notebook is available at `examples/validation_pyshbundle.ipynb`, and the automated test suite in `tests/` enforces this criterion on every commit via continuous integration.
+The accuracy of the core capabilities of `pyshbundle` was validated against the MATLAB `SHbundle` software using 60 months of JPL GRACE RL06 Level-2 data. The gridwise Root Mean Square Error (RMSE) between the computed and reference Terrestrial Water Storage fields was below $10^{-3}$ mm, confirming numerical equivalence between the two implementations. A reproducible validation notebook is available at `examples/validation_pyshbundle`, and the automated test suite in `tests/` enforces this criterion on every commit via continuous integration.
 
 
 # Acknowledgements
