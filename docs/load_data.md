@@ -4,8 +4,5 @@ See [Tutorials](tutorials.md)
 ### 
 ::: pyshbundle.io
 
-## Computing Long Term Mean
-::: pyshbundle.io.load_longterm_mean
-
 ## Physical and Geodetic Constants
 ::: pyshbundle.GRACEconstants
