@@ -19,44 +19,40 @@ PySHBundle is a tool to process GRACE L2 data and re-implements the popular [SHB
 
 ## 1. How to install <br>
 ### 1.1 For Users
-The module can be installed via pip python package manager. Follow the follwing steps to setup a virtual environment and start exploring the GRACE Gravity Field data.
+The recommended installation method is to clone the repository and install locally. This also gives you access to the example notebooks and data.
 
 ```shell
-# clone the repository in order to access the notebooks and data
-$ git clone https://github.com/lsmvivek/pyshbundle.git
-$ pip install .
+# Clone the repository
+$ git clone https://github.com/GESS-research-group/pyshbundle.git
+$ cd pyshbundle
 
-
-# The package is available on pip but is BROKEN
-# Please avoid installing via pip till we fix that
-# creating a new virtual environment
+# Create and activate a virtual environment
 $ python3 -m venv <name-env>
-# activate the virtual environment environment
-$ source </location-of-virt-env/name-env/bin/activate>
-# install package into virtual environment
-$ pip install pyshbundle
+$ source <name-env>/bin/activate  # On Windows: <name-env>\Scripts\activate
+
+# Install the package
+$ pip install .
 ```
 
+> **Note:** The package is available on PyPI but is currently broken.
+> Please avoid installing via `pip install pyshbundle` until this is resolved.
+
 ### 1.2 For Devs/Contributors
-Developers can access the latest development branch and 
 ```shell
-# clone the repo and fetch the dev branch
-$ git clone git@github.com:mn5hk/pyshbundle.git
+# Clone the repository
+$ git clone https://github.com/GESS-research-group/pyshbundle.git
+$ cd pyshbundle
 
-# creating a new virtual environment
+# Create and activate a virtual environment
 $ python3 -m venv <name-env>
+$ source <name-env>/bin/activate  # On Windows: <name-env>\Scripts\activate
 
-# install the dependencies from the requirements-dev file
-$ pip install -r ../pyshbundle/requirements-dev.txt
+# Install the package in editable mode with dev dependencies
+$ pip install -r requirements-dev.txt
+$ pip install -e .
 
-# activate the virtual environment environment
-$ source </location-of-virt-env/name-env/bin/activate>
-
-# install package into virtual environment
-$ pip install ../pyshbundle/dist/<required-version>.tar.gz
-
-# you also have the option to build the module using, be careful of 
-$ python setup.py sdist
+# To build a source distribution
+$ python -m build
 ```
 
 ## Trying it out
