@@ -65,6 +65,9 @@ Data for trying out this new tool is included in the repo. After installing and 
 4. Terrestrial Water Storage (TWS) Time Series
 5. Tests and Validation notebook
 
+## Docs
+
+Please find the docs here - [PySHBundle](https://gess-research-group.github.io/pyshbundle/)
 
 ## Testing
 
@@ -101,11 +104,6 @@ Tests run automatically on every push via GitHub Actions across 6 combinations:
 
 - **OS:** Ubuntu, macOS, Windows
 - **Python:** 3.9, 3.12
-
-## Docs
-
-Please find the docs here - [PySHBundle](https://gess-research-group.github.io/pyshbundle/)
-
 
 ## Contributing
 
