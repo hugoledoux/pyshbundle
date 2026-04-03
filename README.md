@@ -1,6 +1,10 @@
 # PySHbundle: A Python implementation of GRACE Spherical Harmonics Synthesis MATLAB codes SHbundle <br>
 
-![](https://visitor-badge.glitch.me/badge?page_id=mn5hk.mat2py) <br>
+![](https://visitor-badge.glitch.me/badge?page_id=mn5hk.mat2py)
+[![Build and Test](https://github.com/GESS-research-group/pyshbundle/actions/workflows/python-package-conda.yml/badge.svg)](https://github.com/GESS-research-group/pyshbundle/actions/workflows/python-package-conda.yml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Python 3.9 | 3.12](https://img.shields.io/badge/python-3.9%20%7C%203.12-blue)](https://www.python.org)
+[![Documentation](https://img.shields.io/badge/docs-github.io-green)](https://gess-research-group.github.io/pyshbundle/) <br>
 
 This package, `PySHbundle` provides tools to process GRACE data, such as, the computation of anomalies, substitution of poor quality low degree coefficients, reducing noise in GRACE data using filtering approaches, signal leakage correction using `GDDC`, etc. In addition, the package provides a flexibility for future development and addition of further processing choices for handling GRACE data for hydrological application.
 
@@ -15,44 +19,40 @@ PySHBundle is a tool to process GRACE L2 data and re-implements the popular [SHB
 
 ## 1. How to install <br>
 ### 1.1 For Users
-The module can be installed via pip python package manager. Follow the follwing steps to setup a virtual environment and start exploring the GRACE Gravity Field data.
+The recommended installation method is to clone the repository and install locally. This also gives you access to the example notebooks and data.
 
 ```shell
-# clone the repository in order to access the notebooks and data
-$ git clone https://github.com/lsmvivek/pyshbundle.git
-$ pip install .
+# Clone the repository
+$ git clone https://github.com/GESS-research-group/pyshbundle.git
+$ cd pyshbundle
 
-
-# The package is available on pip but is BROKEN
-# Please avoid installing via pip till we fix that
-# creating a new virtual environment
+# Create and activate a virtual environment
 $ python3 -m venv <name-env>
-# activate the virtual environment environment
-$ source </location-of-virt-env/name-env/bin/activate>
-# install package into virtual environment
-$ pip install pyshbundle
+$ source <name-env>/bin/activate  # On Windows: <name-env>\Scripts\activate
+
+# Install the package
+$ pip install .
 ```
 
+> **Note:** The package is available on PyPI but is currently broken.
+> Please avoid installing via `pip install pyshbundle` until this is resolved.
+
 ### 1.2 For Devs/Contributors
-Developers can access the latest development branch and 
 ```shell
-# clone the repo and fetch the dev branch
-$ git clone git@github.com:mn5hk/pyshbundle.git
+# Clone the repository
+$ git clone https://github.com/GESS-research-group/pyshbundle.git
+$ cd pyshbundle
 
-# creating a new virtual environment
+# Create and activate a virtual environment
 $ python3 -m venv <name-env>
+$ source <name-env>/bin/activate  # On Windows: <name-env>\Scripts\activate
 
-# install the dependencies from the requirements-dev file
-$ pip install -r ../pyshbundle/requirements-dev.txt
+# Install the package in editable mode with dev dependencies
+$ pip install -r requirements-dev.txt
+$ pip install -e .
 
-# activate the virtual environment environment
-$ source </location-of-virt-env/name-env/bin/activate>
-
-# install package into virtual environment
-$ pip install ../pyshbundle/dist/<required-version>.tar.gz
-
-# you also have the option to build the module using, be careful of 
-$ python setup.py sdist
+# To build a source distribution
+$ python -m build
 ```
 
 ## Trying it out
@@ -65,11 +65,45 @@ Data for trying out this new tool is included in the repo. After installing and 
 4. Terrestrial Water Storage (TWS) Time Series
 5. Tests and Validation notebook
 
-
 ## Docs
 
 Please find the docs here - [PySHBundle](https://gess-research-group.github.io/pyshbundle/)
 
+## Testing
+
+The test suite validates the accuracy of the TWS computation against a MATLAB reference solution.
+
+### Framework
+Tests are written in `pytest` and live in the `tests/` directory.
+
+### Running the tests
+```shell
+# From the project root
+pytest tests/ -v
+```
+
+By default, the tests look for GRACE input data in `data/JPL_input/`. You can override this with an environment variable:
+```shell
+PYSHBUNDLE_DATA_DIR=/path/to/your/data pytest tests/ -v
+```
+
+### What is tested
+The suite runs 6 tests using 60 months of JPL GRACE RL06 data compared against a MATLAB-generated reference TWS field (`tws_sh.mat`):
+
+| Test | Description | Threshold |
+|---|---|---|
+| `test_tws_output_shape` | Computed and reference arrays have identical shape | — |
+| `test_tws_output_dtype` | Output is `float32` | — |
+| `test_gridwise_rmse` | Gridwise RMSE (mm) between computed and reference TWS | < 1e-3 |
+| `test_gridwise_nrmse` | Gridwise NRMSE (normalised by reference std) | < 1e-5 |
+| `test_no_nan_in_output` | No NaN values in computed TWS | — |
+| `test_no_nan_in_reference` | No NaN values in MATLAB reference (sanity check) | — |
+
+### Continuous Integration
+Tests run automatically on every push via GitHub Actions across 6 combinations:
+
+- **OS:** Ubuntu, macOS, Windows
+- **Python:** 3.9, 3.12
 
 ## Contributing
 
@@ -152,7 +186,7 @@ Please note that PySHbundle has adapted the following code packages,both license
     Downscaling GRACE total water storage change using 
     partial least squares regression. Scientific data, 8(1), 95.
     https://doi.org/10.1038/s41597-021-00862-6 
-    
+
 
 ## How to Cite?
 Coming soon!
