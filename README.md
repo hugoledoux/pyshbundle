@@ -66,6 +66,42 @@ Data for trying out this new tool is included in the repo. After installing and 
 5. Tests and Validation notebook
 
 
+## Testing
+
+The test suite validates the accuracy of the TWS computation against a MATLAB reference solution.
+
+### Framework
+Tests are written in `pytest` and live in the `tests/` directory.
+
+### Running the tests
+```shell
+# From the project root
+pytest tests/ -v
+```
+
+By default, the tests look for GRACE input data in `data/JPL_input/`. You can override this with an environment variable:
+```shell
+PYSHBUNDLE_DATA_DIR=/path/to/your/data pytest tests/ -v
+```
+
+### What is tested
+The suite runs 6 tests using 60 months of JPL GRACE RL06 data compared against a MATLAB-generated reference TWS field (`tws_sh.mat`):
+
+| Test | Description | Threshold |
+|---|---|---|
+| `test_tws_output_shape` | Computed and reference arrays have identical shape | — |
+| `test_tws_output_dtype` | Output is `float32` | — |
+| `test_gridwise_rmse` | Gridwise RMSE between computed and reference TWS | < 1e-3 |
+| `test_gridwise_nrmse` | Gridwise NRMSE (normalised by reference std) | < 1e-5 |
+| `test_no_nan_in_output` | No NaN values in computed TWS | — |
+| `test_no_nan_in_reference` | No NaN values in MATLAB reference (sanity check) | — |
+
+### Continuous Integration
+Tests run automatically on every push via GitHub Actions across 6 combinations:
+
+- **OS:** Ubuntu, macOS, Windows
+- **Python:** 3.9, 3.12
+
 ## Docs
 
 Please find the docs here - [PySHBundle](https://gess-research-group.github.io/pyshbundle/)
@@ -152,7 +188,7 @@ Please note that PySHbundle has adapted the following code packages,both license
     Downscaling GRACE total water storage change using 
     partial least squares regression. Scientific data, 8(1), 95.
     https://doi.org/10.1038/s41597-021-00862-6 
-    
+
 
 ## How to Cite?
 Coming soon!
