@@ -12,16 +12,16 @@ tags:
 authors:
   - name: Vivek Kumar Yadav
     orcid: 0009-0000-7156-4450
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
+    equal-contrib: true
     corresponding: true
     affiliation: 1
   - name: Amin Shakya
     orcid: 0000-0002-4706-826X
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
+    equal-contrib: true
     affiliation: "1,2"
   - name: Abhishek Mhamane
     orcid: 0000-0001-9788-0371
-    equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
+    equal-contrib: true
     affiliation: 3
   - name: Tsungrojungla Walling
     orcid: 0009-0006-9323-1191
